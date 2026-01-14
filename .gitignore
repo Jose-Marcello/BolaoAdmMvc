@@ -361,3 +361,13 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# ===================================================
+# MEUS SEGURANÇAS (Proteção de Dados Sensíveis)
+# ===================================================
+**/appsettings.json
+**/appsettings.Development.json
+**/appsettings.Production.json
+
+# Garantir que o exemplo suba para o portfólio
+!**/appsettings.example.json
