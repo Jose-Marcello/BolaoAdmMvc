@@ -1,0 +1,79 @@
+﻿@model IEnumerable<DevBol.Presentation.ViewModels.RodadaViewModel>
+
+@{
+    ViewData["Title"] = "Manter Jogos das Rodadas em CONSTRUÇÃO do(a) : " +TempData["NomeCampeonato"] ;
+
+    <script src="~/lib/jquery/dist/jquery-3.7.1.js"></script>
+}
+
+<h4 style="padding-top: 40px">@ViewData["Title"]</h4>
+<hr />
+
+<table class="table table-hover">
+    <thead class="thead-dark">
+        <tr>          
+
+            <th>
+                @Html.DisplayNameFor(model => model.NumeroRodada)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DataInic)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.DataFim)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.NumJogos)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+
+        {
+            <tr>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumeroRodada)
+                </td>
+
+                <td>
+                    @Html.Raw(String.Format("{0:dd MMM yyyy}", item.DataInic))
+                </td>
+
+                <td>
+                    @Html.Raw(String.Format("{0:dd MMM yyyy}", item.DataFim))
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumJogos)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+
+                <td class="text-right">
+                    <a class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Manter JOGOS da Rodada Selecionada" asp-controller="Jogo" asp-action="ManterJogos" asp-route-id="@item.Id"><spam class="fa fa-address-book"></spam> </a>
+                </td>
+           
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+
+
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()        
+    })
+
+</script>

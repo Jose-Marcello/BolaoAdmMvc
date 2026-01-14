@@ -1,0 +1,76 @@
+﻿@model DevBol.Presentation.ViewModels.EquipeViewModel
+
+@{
+    ViewData["Title"] = "Editar a Equipe : " + @Model.Nome;
+
+    <script src="~/lib/jquery/dist/jquery-3.7.1.js"></script>
+
+}
+
+<h4 style="padding-top: 30px">@ViewData["Title"] </h4>
+<hr />
+<div class="row">
+    <div class="col-md-10">
+        <form enctype="multipart/form-data" asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <input type="hidden" asp-for="Id" />            
+
+            <div class="form-group">
+                <label asp-for="Nome" class="control-label"></label>
+                <input asp-for="Nome" class="form-control" />
+                <span asp-validation-for="Nome" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="Sigla" class="control-label"></label>
+                <input asp-for="Sigla" class="form-control" />
+                <span asp-validation-for="Sigla" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="UfId" class="control-label"></label>
+                <select asp-for="UfId" class="form-control" asp-items="@(new SelectList(Model.Ufs, "Id", "Nome", Model.UfId))">
+                    <option></option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Imagem Atual</label><br />
+                <img src="~/images/@Model.Escudo" alt="@Model.Escudo" style="width: 70px; height: 100px" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="EscudoUpload" class="control-label"></label>
+
+                <div class="input-group custom-file-button">
+                    <input type="file" class="form-control" id="ImagemUpload" asp-for="EscudoUpload">
+                    <label class="input-group-text" for="EscudoUpload">Escolher</label>
+                </div>
+
+                <span asp-validation-for="EscudoUpload" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Tipo" class="control-label"></label><br />
+                <input type="radio" value="1" asp-for="Tipo" checked /> Time<br />
+                <input type="radio" value="2" asp-for="Tipo" /> Seleção
+            </div>
+                       
+            
+            <div class="form-group">
+                <input type="submit" value="Alterar" class="btn btn-primary" />
+                <a class="btn btn-info" href="javascript:window.history.back();">Voltar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<hr />
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+ 
+}

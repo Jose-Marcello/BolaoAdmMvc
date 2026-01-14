@@ -1,0 +1,94 @@
+﻿@* @using DataTables; *@
+
+@{
+
+    ViewData["Title"] = "Apostas de : " + TempData["Apostador"] + " na Rodada : " + TempData["Rodada"]
+                        + " do(a) : " + TempData["Campeonato"];
+
+    //ViewBag.Title = "Apostas do(a) na Rodada
+    //Lista";
+}
+
+<h4 style="padding-top: 50px">@ViewData["Title"] </h4>
+
+
+
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <table id="myDataTable" class="table table-bordered table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Equipe Casa</th>
+                                        <th>Placar Casa</th>
+                                        <th>Equipe Visita</th>
+                                        <th>Placar Vista</th>
+                                        <th>Data Jogo</th>
+                                        <th>Hora Jogo</th>
+                                        <th>Estádio</th>
+                                        <th>Data/Hora Aposta</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- /#page-wrapper -->
+@section Scripts { 
+    <!-- JS -->
+    
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //Pega os dados do banco de dados para preencher o datatable
+            var oTable = $("#myDataTable").DataTable({
+                "language": {
+                    "lengthMenu": "Exibe _MENU_ Registros por página",
+                    "search": "Procurar",
+                    "paginate": { "previous": "Retorna", "next": "Avança" },
+                    "zeroRecords": "Nada foi encontrado",
+                    "info": "Exibindo página _PAGE_ de _PAGES_",
+                    "infoEmpty": "Sem registros",
+                    "infoFiltered": "(filtrado de _MAX_ regitros totais)"
+                },
+                "processing": true, // mostrar a progress bar
+                //"serverSide": true, // processamento no servidor
+                "filter": true, // habilita o filtro(search box)
+                "lengthMenu": [[3, 5, 10, 25, 50, -1], [3, 5, 10, 25, 50, "Todos"]],
+                "pageLength": 3, // define o tamanho da página                             
+
+
+                "ajax": {                    
+                    "url": "/ApostadorCampeonato/BuscaApostasDoApostador/" + id,
+                   // "type": "GET",
+                    "dataType": "json"
+                    "method": "POST"
+                },
+                "columns":
+                [
+                  { "data": "Jogo.EquipeCasa.Equipe.Nome", "title": "Equipe Casa", "autowidth": true },
+                  { "data": "PlacarCasa", "title": "Placar Casa", "autowidth": true },
+                  { "data": "Jogo.EquipeVisitante.Equipe.Nome", "title": "Equipe Visita", "autowidth": true },
+                  { "data": "PlacarVisita", "title": "Placar Visita", "autowidth": true },
+                  { "data": "Jogo.DataJogo", "title": "Data Jogo", "autowidth": true },
+                  { "data": "Jogo.HoraJogo", "title": "Hora Jogo", "autowidth": true },
+                  { "data": "Jogo.Estadio.Nome", "title": "Estádio", "autowidth": true },
+                  { "data": "DataHora", "title": "Data/Hora Aposta", "autowidth": true },
+
+                             
+                ]
+        });
+    });
+
+    </script>
+ }
+ 
+

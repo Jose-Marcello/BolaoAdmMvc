@@ -1,0 +1,19 @@
+﻿@model IEnumerable<DevBol.Presentation.ViewModels.RodadaViewModel>
+
+@{
+    ViewData["Title"] = "Lista de Rodadas";
+
+    <script src="~/lib/jquery/dist/jquery-3.7.1.js"></script>
+
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+
+<vc:Summary></vc:Summary>
+
+<p>
+    <a class="btn btn-info" asp-action="Create">Nova Rodada</a>
+</p>
+
+<partial name="_ListaRodadas" />

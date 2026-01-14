@@ -1,0 +1,102 @@
+﻿@model IEnumerable<DevBol.Presentation.ViewModels.JogoViewModel>
+
+@{
+
+    ViewData["Title"] = "Jogos da Rodada : " + TempData["Rodada"] + " - (Em Construção) - : " + TempData["Campeonato"] + //" (CAMP/ROD CORRENTES)" +
+                                 " - Lançados : " + TempData["Lancados"] + " de " + TempData["NumJogos"];
+}
+
+
+<h4 style="padding-top: 5px">@ViewData["Title"] </h4>
+
+ <p>
+    <a class="btn btn-success" asp-route-id="@ViewBag.rodadaId" asp-controller="Jogo" asp-action="Create">Novo Jogo </a>
+</p>
+ 
+
+@* <form asp-controller="Jogo" asp-action="Create" method="get">
+    <input type="hidden" name="rodadaId" value="@ViewBag.RodadaId" />
+    <button type="submit" class="btn btn-success">
+        <i class="fa fa-plus"></i> Criar Novo Jogo
+    </button>
+</form> *@
+
+<hr />
+<table class="table table-hover">
+    <thead class="thead-dark">
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.EquipeCasaId)
+            </th>
+            <th>
+                                  X
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EquipeVisitanteId)
+            </th>
+          
+            <th>
+                @Html.DisplayNameFor(model => model.DataJogo)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.HoraJogo)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Estadio)
+            </th>
+
+            <th>
+                 @Html.DisplayNameFor(model => model.Status)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+
+        {
+            <tr>
+                               
+                <td>
+                    @Html.DisplayFor(modelItem => item.EquipeCasa.Equipe.Nome)                                     
+                </td>
+                <td>                   
+                    <img src="/images/@item.EquipeCasa.Equipe.Escudo" style="height: 30px; width: 30px" />                   
+                </td>
+               
+                <td>
+                    <img src="/images/@item.EquipeVisitante.Equipe.Escudo" style="height: 30px; width: 30px" />
+                    @Html.DisplayFor(modelItem => item.EquipeVisitante.Equipe.Nome)
+                </td>
+
+                <td>
+                    @Html.Raw(String.Format("{0:dd MMM yyyy}", item.DataJogo))
+                </td>
+
+                <td>
+                    @Html.Raw(item.HoraJogo.ToString(@"hh\:mm"))
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Estadio.Nome)
+                </td>
+
+                
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+
+
+
+
+                <td class="text-right">
+                    <a class="btn btn-warning" asp-controller="Jogo" asp-action="Details" asp-route-id="@item.Id"><spam class="fa fa-search"></spam> </a>
+                    <a class="btn btn-info" asp-controller="Jogo" asp-action="Edit" asp-route-id="@item.Id"><spam class="fa fa-pencil-alt"></spam> </a>
+                    <a class="btn btn-danger" asp-controller="Jogo" asp-action="Delete" asp-route-id="@item.Id"><spam class="fa fa-trash"></spam> </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

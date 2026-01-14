@@ -1,0 +1,269 @@
+﻿@*GOOGLEAR CARD BOOTSTRAP 5*@
+@model DevBol.Presentation.ViewModels.ApostadorCampeonatoViewModel
+
+@{
+
+    ViewData["Title"] = "Apostas de : " + TempData["Apostador"] + " na Rodada : " + TempData["Rodada"] + " do(a) : " + TempData["Campeonato"];
+
+    //+ "(Id: "+ Model.Id + " ) na Rodada : " + TempData["Rodada"]
+
+
+    ViewData["StatusAposta"] = "Status da Aposta :  " + TempData["ENVIADA"] + "    " + TempData["DATA_APOSTA"] + "    " + TempData["HORA_APOSTA"]; ;
+}
+
+
+@section Estilos {
+
+    <link href="https://cdn.datatables.net/responsive/2.1.1/css/responsive.bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet" />
+      
+
+    <style>
+
+        thead input {
+            width: 100%;
+            background-color: #FFFFCC !important
+        }
+
+        .btn-exportar-excel {
+            background-color: #198754 !important;
+            color: white !important;
+        }
+
+        .btn-exportar-pdf {
+            background-color: #dc3545 !important;
+            color: white !important;
+        }
+
+        .btn-exportar-print {
+            background-color: #00a7c9 !important;
+            color: white !important;
+        }
+    </style>
+}
+
+<h4 style="padding-top: 30px">@ViewData["Title"] </h4>
+
+
+<div class="card">
+    <div class="card-header">
+        @ViewData["StatusAposta"]
+
+        <input type="hidden" id="IdApostadorCampeonato" value="Model.Id" /> 
+
+    </div>
+    <div class="card-body">
+
+        <div class="row">
+            <div class="col-sm-12">
+
+
+                <table class="display" id="tb_apostas" style="width:100%">
+
+                    <thead>                      
+                         
+                       
+                        <tr>
+                            
+                            <th>Id</th>                      @*  0 *@
+                            <th>Equipe Mandante</th>         @*  1 *@ 
+                            <th> </th> @*escudo *@           @*  2 *@
+                            <th> </th> @*Placar apostado*@   @*  3 *@
+                            @* <th> X </th> *@                     @*  4   - 5a POSIÇÃO É O X *@   
+                            <th> </th>                       @*  5 *@
+                            <th> </th>                       @*  6 *@
+                            <th>Equipe Visitante</th>        @*  7 *@
+                            <th>Estádio</th>                 @*  8 *@
+                            <th>Data Jogo</th>               @*  9 *@
+                            <th>Hora Jogo</th>               @* 10 *@
+                            @* <th>Enviada (S/N) </th>          @* 11 
+                            <th>Data/Hora da Aposta</th>     @* 12     TOTAL: 13 (0 AO 12) *@
+
+                        </tr>
+                    </thead>
+
+                    <p>
+                        @* <a class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Salvar a Aposta !!"
+                           >Salvar Aposta</a> *@
+                        <button type="button" id="btnSalvarAposta" class="btn btn-info">Salvar Aposta</button>
+                    </p>
+
+                </table>                
+
+            </div>
+
+        </div>        
+
+    </div>
+</div>
+
+@section Scripts
+{
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js "></script>
+       
+   
+    <script>
+
+        $(document).ready(function () {
+            //var idApostadorCampeonato = $("#IdApostadorCampeonato").val();
+
+            var table = $("#tb_apostas").DataTable({ // Configuração do DataTables dentro do $(document).ready()
+                "ajax": {
+                    "url": '@Url.Action("BuscaApostasDoApostadorNaRodada", "ApostadorCampeonato", new { Id = @Model.Id })',
+                    "type": "GET",
+                    "datatype": "json"
+                },
+                
+                
+                // ... (resto da configuração do DataTables)
+
+                "columnDefs": [
+                    { "targets": [0], "visible": false, "searchable": false },
+                    { "targets": [1], "searchable": false },
+                    { "targets": [2], "searchable": false },
+                    { "targets": [3], "searchable": false },
+                    { "targets": [4], "searchable": false },
+                    { "targets": [5], "searchable": false },
+                    { "targets": [6], "searchable": false },
+                    { "targets": [7], "searchable": false },
+                    { "targets": [8], "searchable": false }
+                ],  
+
+                "columns": [
+
+                    { "data": "id" },               // 0
+                    { "data": "equipeMandante" },   // 1
+                    
+                    {                               // 2
+                        "data": "escudoMandante",   // Nome da propriedade que contém a URL da imagem
+                        "render": function (data, type, row) {
+                            return '<img src="/images/' + data + '" alt="' + row.nome + '"height="30" width="30">'; // Exibe a imagem
+                        }
+                    },
+
+                    {                              //3
+                        data: "placarMandante",
+                        render: function (data, type, row) {
+                            // Verifica se o valor é nulo ou vazio
+                            if (data === null || data === "") {
+                                data = ""; // Define como vazio para o input
+                            }
+                            return '<input type="number" min="0" value="' + data + '" class="placar-input">';
+                        }
+                        
+                    },
+
+                    //{},                           //4 //corresponde ao X
+
+                    {
+                        data: "placarVisitante",  //5
+                        render: function (data, type, row) {
+                            // Verifica se o valor é nulo ou vazio
+                            if (data === null || data === "") {
+                                data = ""; // Define como vazio para o input
+                            }
+                            return '<input type="number" min="0" value="' + data + '" class="placar-input">';
+                        }
+                      
+                    },
+                   
+                    {                             //6
+                        "data": "escudoVisitante", // Nome da propriedade que contém a URL da imagem
+                        "render": function (data, type, row) {
+                            return '<img src="/images/' + data + '" alt="' + row.nome + '"height="30" width="30">'; // Exibe a imagem
+                        }
+                    },
+                    { "data": "equipeVisitante" }, //7
+                    
+                    { "data": "estadio" },     //8             
+
+                    { "data": "dataJogo" },    //9
+                    { "data": "horaJogo" },    //10
+
+                   /* {                          //11
+                        "data": "enviada",
+                        "render": function (data, type, row) {
+                            return data ? "Sim" : "Não";
+                        }
+                    },
+                   
+                    { "data": "dataHoraAposta" }  //12 */                  
+                ],
+
+                //________________ SEGUNDO ____________
+                language: {
+                    url: "https://cdn.datatables.net/plug-ins/1.11.5/i18n/pt-BR.json"
+                },
+                //________________ TERCERO ____________
+                columnDefs: [
+                    {
+                        targets: 0,
+                        visible: false
+                    }
+                ], 
+
+            });
+
+            $("#btnSalvarAposta").click(function () {
+                //console.log("Botão Salvar Aposta clicado!");
+
+                var apostas = [];
+
+                table.rows().every(function (rowIdx, tableData, rowLoop) { // <-- Usa table.rows().every()
+                    var data = table.row(rowIdx).data(); // <-- Obtém os dados ORIGINAIS da linha
+
+                    //console.log("Dados da linha:", data); // Imprime todos os dados da linha
+
+                    var linha = $(this.node());
+                    //console.log("Elemento da linha:", linha); // Imprime o elemento <tr> da linha
+
+                    var placarMandanteInput = linha.find("td:eq(2) input");
+                    //console.log("Input placarMandante:", placarMandanteInput); // Imprime o input do placarMandante
+                    //console.log("Valor placarMandante:", placarMandanteInput.val()); // Imprime o valor do input
+
+                    var placarVisitanteInput = linha.find("td:eq(3) input");
+                    //console.log("Input placarVisitante:", placarVisitanteInput); // Imprime o input do placarVisitante
+                    //console.log("Valor placarVisitante:", placarVisitanteInput.val()); // Imprime o valor do input
+
+
+                    var placarMandante = $(this.node()).find("td:eq(2) input").val(); // <-- Acessa o input diretamente
+                    var placarVisitante = $(this.node()).find("td:eq(3) input").val(); // <-- Acessa o input diretamente
+                 
+                    //console.log("Valor placarVisitante (linha 3):", placarVisitante);
+
+                    apostas.push({
+                        id: data.id, // <-- Usa o ID ORIGINAL da linha
+                        PlacarApostaCasa: placarMandante,
+                        PlacarApostaVisita: placarVisitante
+                    });
+                });
+                if (apostas.length === 0) {
+                    return; // Sai da função se não houver apostas para salvar
+                }
+
+                $.ajax({
+                    url: "/ApostadorCampeonato/SalvarApostas",
+                    type: "POST",
+                    data: JSON.stringify(apostas),
+                    contentType: "application/json",
+                    success: function (response) {
+                        alert("Apostas salvas com sucesso!");
+                        // Atualizar tabela, se necessário
+                    },
+                    error: function (error) {
+                        alert("Erro ao salvar as apostas: " + error.message);
+                    }
+                });
+            });
+
+
+
+
+        });            
+
+     </script>
+}
+

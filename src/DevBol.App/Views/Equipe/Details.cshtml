@@ -1,0 +1,44 @@
+﻿@model DevBol.Presentation.ViewModels.EquipeViewModel
+
+@{
+    ViewData["Title"] = "Informações da EQUIPE : " + Model.Nome + " - " + Model.Sigla  + " - (Estado: " + Model.Uf.Nome +")";
+
+    <script src="~/lib/jquery/dist/jquery-3.7.1.js"></script>
+}
+
+<h4 style="padding-top: 50px">@ViewData["Title"]</h4>
+<hr />
+<div class="row">
+
+    <div class="col-md-6">
+        <dl>
+            <dt>
+                @Html.DisplayNameFor(model => model.Nome)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Nome)
+            </dd>
+                        
+            <dt>
+                    @Html.DisplayNameFor(model => model.Escudo)
+            </dt>
+            <td>
+                <img src="/images/@Model.Escudo" style="height: 30px; width: 30px" />
+            </td>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Tipo)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Tipo)
+            </dd>
+                      
+
+        </dl>
+
+        <div>
+            <a class="btn btn-dark" asp-action="Edit" asp-route-id="@Model.Id">Editar</a>
+            <a class="btn btn-info" asp-action="Index">Voltar</a>
+        </div>
+    </div>
+</div>

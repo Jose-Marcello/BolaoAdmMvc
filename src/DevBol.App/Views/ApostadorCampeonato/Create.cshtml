@@ -1,0 +1,53 @@
+﻿@model DevBol.Presentation.ViewModels.ApostadorCampeonatoViewModel
+@{
+
+    ViewData["Title"] = "Associa novo Apostador a(o) : " + Model.Campeonato.Nome;
+
+    <script src="~/lib/jquery/dist/jquery-3.7.1.js"></script>
+
+}
+<h3 style="padding-top: 20px">@ViewData["Title"]           
+
+</h3>
+
+<div class="display-field">
+     @Html.DisplayFor(c => c.Campeonato.Nome)
+</div>
+
+<hr />
+<div class="row">
+    <div class="col-md-10">
+        <form enctype="multipart/form-data" asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <input type="hidden" asp-for="CampeonatoId" />
+
+            <div class="form-group">
+                <label asp-for="ApostadorId" class="control-label"></label>
+                <select asp-for="ApostadorId" class="form-control" asp-items="@(new SelectList(Model.Apostadores, "Id", "Nome"))">
+                    <option></option>
+                </select>
+
+                <span asp-validation-for="ApostadorId" class="text-danger"></span>
+            </div>  
+                                
+            <br />            
+           
+            <div class="form-group">
+                <input type="submit" value="Associar" class="btn btn-primary" />
+                <a class="btn btn-info" href="javascript:window.history.back();">Voltar</a>
+            </div>
+
+          
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+}
+

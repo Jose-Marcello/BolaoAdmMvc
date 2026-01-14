@@ -1,0 +1,70 @@
+﻿@model IEnumerable<DevBol.Presentation.ViewModels.EquipeCampeonatoViewModel>
+
+@{
+
+    ViewData["Title"] = "Associar Equipes a(o) : " +  TempData["Campeonato"] ;
+
+    <script src="~/lib/jquery/dist/jquery-3.7.1.js"></script>
+
+}
+
+<h4 style="padding-top: 30px">@ViewData["Title"] </h4>
+ 
+<p>
+    <a class="btn btn-success" asp-controller="EquipeCampeonato" asp-action="Create" id="">Associar Equipe</a>
+ </p> 
+    
+<hr />
+<table class="table table-hover">
+    <thead class="thead-dark">
+        <tr>
+            
+           @*  <th>
+                @Html.DisplayNameFor(model => model.Campeonato.Nome)
+            </th> *@
+
+            <th>
+                @Html.DisplayNameFor(model => model.Equipe.Nome)
+            </th>            
+
+            <th>
+                @Html.DisplayNameFor(model => model.Equipe.Sigla)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Equipe.Uf.Sigla)
+            </th>
+            
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                @* 
+                <td>
+                    @Html.DisplayFor(modelItem => item.Campeonato.Nome)
+                </td> *@
+
+                <td>
+                    <img src="/images/@item.Equipe.Escudo" style="height: 30px; width: 30px" />
+                    @Html.DisplayFor(modelItem => item.Equipe.Nome)
+                </td>
+                
+                <td>
+                    @Html.DisplayFor(modelItem => item.Equipe.Sigla)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Equipe.Uf.Sigla)
+                </td>
+
+                <td class="text-right">
+                    <a class="btn btn-danger" asp-controller="EquipeCampeonato" asp-action="Delete"
+                       asp-route-IdCampeonato="@item.CampeonatoId" asp-route-IdEquipe="@item.EquipeId"><spam class="fa fa-trash"></spam> </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

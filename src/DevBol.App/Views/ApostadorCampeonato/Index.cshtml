@@ -1,0 +1,69 @@
+﻿@model IEnumerable<DevBol.Presentation.ViewModels.ApostadorCampeonatoViewModel>
+
+@{
+
+    ViewData["Title"] = "Associar Apostadores a(o) : " +  TempData["Campeonato"] ;
+
+    <script src="~/lib/jquery/dist/jquery-3.7.1.js"></script>
+
+}
+
+<h4 style="padding-top: 30px">@ViewData["Title"] </h4>
+ 
+<p>
+    <a class="btn btn-success" asp-controller="ApostadorCampeonato" asp-action="Create" id="">Associar Apostador</a>
+ </p> 
+    
+<hr />
+<table class="table table-hover">
+    <thead class="thead-dark">
+        <tr>           
+            <th>
+                @Html.DisplayNameFor(model => model.Apostador.Usuario.Apelido)
+            </th>            
+
+            <th>
+                @Html.DisplayNameFor(model => model.Apostador.Usuario.CPF)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Apostador.Usuario.Email)
+            </th>
+            
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>               
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Apostador.Usuario.Apelido)
+                </td>
+                
+                <td>
+                    @Html.DisplayFor(modelItem => item.Apostador.Usuario.CPF)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Apostador.Usuario.Email)
+                </td>
+
+                <td class="text-right">
+                    <a class="btn btn-danger" asp-controller="ApostadorCampeonato" asp-action="Delete"
+                       asp-route-Id="@item.Id"><spam class="fa fa-trash"></spam> </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+
+}
+

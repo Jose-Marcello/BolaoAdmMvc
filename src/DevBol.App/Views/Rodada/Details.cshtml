@@ -1,0 +1,59 @@
+﻿@model DevBol.Presentation.ViewModels.RodadaViewModel
+
+@{
+
+    ViewData["Title"] = "Informações da Rodada Número : " + Model.NumeroRodada + " do Campeonato: " +Model.Campeonato.Nome;
+
+    <script src="~/lib/jquery/dist/jquery-3.7.1.js"></script>
+
+}
+
+<h4 style="padding-top: 50px">@ViewData["Title"]</h4>
+<hr />
+<div class="row">
+
+    <div class="col-md-6">
+        <dl>
+          
+            <dt>
+                @Html.DisplayNameFor(model => model.DataInic)
+            </dt>
+            <dd>
+                @Html.Raw(String.Format("{0:dd MMM yyyy}", Model.DataInic))
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.DataFim)
+            </dt>
+            <dd>
+                @Html.Raw(String.Format("{0:dd MMM yyyy}", Model.DataFim))
+            </dd>
+           
+            <dt>
+                    @Html.DisplayNameFor(model => model.NumJogos)
+            </dt>
+            <dd>
+                    @Html.DisplayFor(model => model.NumJogos)
+            </dd>
+                        
+            <dt>
+                @Html.DisplayNameFor(model => model.Status)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Status)
+            </dd>
+
+        </dl>
+
+        <div>
+            @* <a class="btn btn-dark" asp-action="Edit" asp-route-id="@Model.Id">Editar</a>
+            <a class="btn btn-info" href="javascript:window.history.back() asp-action=" Index">Voltar</a> *@
+
+            <div class="form-group">
+                <input type="submit" value="Alterar" class="btn btn-primary" />
+                <a class="btn btn-info" href="javascript:window.history.back();">Voltar</a>
+            </div>
+
+        </div>
+    </div>
+</div>

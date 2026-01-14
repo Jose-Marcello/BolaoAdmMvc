@@ -1,0 +1,94 @@
+﻿@model IEnumerable<DevBol.Presentation.ViewModels.CampeonatoViewModel>
+
+@{
+    ViewData["Title"] = "Gerenciar Campeonatos ";
+
+    <script src="~/lib/jquery/dist/jquery-3.7.1.js"></script>
+
+
+}
+
+<h4 style="padding-top: 40px">@ViewData["Title"]</h4>
+<hr />
+
+@if (TempData["Sucesso"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Sucesso"]
+    </div>
+}
+
+@if (TempData["Erro"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["Erro"]
+    </div>
+}
+
+<table class="table table-hover">
+    <thead class="thead-dark">
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DataInic)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DataFim)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumRodadas)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tipo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ativo)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    @Html.Raw(String.Format("{0:dd MMM yyyy}", item.DataInic))
+                </td>
+                <td>
+                    @Html.Raw(String.Format("{0:dd MMM yyyy}", item.DataFim))
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumRodadas)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tipo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ativo)
+                </td>
+                <td class="text-right">
+                    <a class="btn btn-success" asp-controller="Campeonato" data-toggle="tooltip" data-placement="top" title="Listar Equipes do Campeonato" asp-action="ListarEquipesDoCampeonato" asp-route-id="@item.Id"><spam class="fa fa-cart-plus"></spam> </a>
+                    <a class="btn btn-primary" asp-controller="Campeonato" data-toggle="tooltip" data-placement="top" title="Listar Apostadores do Campeonato" asp-action="ListarApostadoresDoCampeonato" asp-route-id="@item.Id"><spam class="fa fa-person-booth"></spam> </a>
+                    <a class="btn btn-danger" asp-controller="Campeonato" data-toggle="tooltip" data-placement="top" title="Atualizar Ranking do Campeonato" asp-action="AtualizarRankingCampeonato" asp-route-id="@item.Id"><spam class="fa fa-book-reader"></spam> </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+
+}
+

@@ -1,0 +1,72 @@
+﻿@model IEnumerable<DevBol.Presentation.ViewModels.CampeonatoViewModel>
+
+<table class="table table-hover">
+    <thead class="thead-dark">
+        <tr>
+        
+            <th>
+                @Html.DisplayNameFor(model => model.Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DataInic)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DataFim)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumRodadas)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tipo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ativo)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>                    
+                    @Html.Raw(String.Format("{0:dd MMM yyyy}", item.DataInic))
+                </td>
+                <td>                    
+                    @Html.Raw(String.Format("{0:dd MMM yyyy}", item.DataFim))
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumRodadas)                     
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tipo)
+                </td>                
+                <td>
+                   @*  @Html.DisplayFor(modelItem => item.Ativo) *@
+
+                    @if (item.Ativo == false)
+                    {
+                        <text>
+                            Não
+                        </text>
+                    }
+                    else
+                    {
+                        <text>
+                            Sim
+                        </text>
+                    }
+                </td>
+                <td class="text-right">
+                    <a class="btn btn-warning" asp-controller="Campeonato" asp-action="Details" asp-route-id="@item.Id"><spam class="fa fa-search"></spam> </a>
+                    <a class="btn btn-info" asp-controller="Campeonato" asp-action="Edit" asp-route-id="@item.Id"><spam class="fa fa-pencil-alt"></spam> </a>
+                    <a class="btn btn-danger" asp-controller="Campeonato" asp-action="Delete" asp-route-id="@item.Id"><spam class="fa fa-trash"></spam> </a>
+                    
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

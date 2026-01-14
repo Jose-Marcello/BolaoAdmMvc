@@ -1,0 +1,79 @@
+﻿@model IEnumerable<DevBol.Presentation.ViewModels.PalpiteViewModel>
+
+@{
+
+    ViewData["Title"] = "Apostas Geradas para a Rodada : " + TempData["Rodada"] + " do(a) : " + TempData["Campeonato"];
+}
+
+<h4 style="padding-top: 30px">@ViewData["Title"] </h4>
+
+
+<hr />
+<table class="table table-hover">
+    <thead class="thead-dark">
+        <tr>
+
+            <th>
+                Equipe da Casa  X  Equipe Visitante
+                @* @Html.DisplayNameFor(model => model.Jogo.EquipeCasa.Equipe)
+                x
+                @Html.DisplayNameFor(model => model.Jogo.EquipeVisitante.Equipe) *@
+            </th>
+
+
+            <th>
+                @Html.DisplayNameFor(model => model.Jogo.EquipeCasa.Equipe.Nome)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Jogo.EquipeVisitante.Equipe.Nome)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.ApostaRodada.ApostadorCampeonato.Apostador.Usuario.Apelido)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.ApostaRodada.DataHoraSubmissao)
+            </th>
+
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+
+        {
+            <tr>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Jogo.EquipeCasa.Equipe.Nome)
+                    <img src="/images/@item.Jogo.EquipeCasa.Equipe.Escudo" style="height: 30px; width: 30px" />
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Jogo.EquipeVisitante.Equipe.Nome)
+                    <img src="/images/@item.Jogo.EquipeVisitante.Equipe.Escudo" style="height: 30px; width: 30px" />
+                </td>
+
+                <td>
+                    @Html.Raw(item.ApostaRodada.ApostadorCampeonato.Apostador.Usuario.Apelido)))
+                </td>
+
+
+                <td>
+                    @Html.Raw(String.Format("{0:dd MMM yyyy}", item.ApostaRodada.DataHoraSubmissao))
+                </td>
+
+
+                @*  <td class="text-right">
+            <a class="btn btn-warning" asp-controller="Jogos" asp-action="Details" asp-route-id="@item.Id"><spam class="fa fa-search"></spam> </a>
+            <a class="btn btn-info" asp-controller="Jogos" asp-action="Edit" asp-route-id="@item.Id"><spam class="fa fa-pencil-alt"></spam> </a>
+            <a class="btn btn-danger" asp-controller="Jogos" asp-action="Delete" asp-route-id="@item.Id"><spam class="fa fa-trash"></spam> </a>
+            </td> *@
+
+            </tr>
+        }
+    </tbody>
+</table>

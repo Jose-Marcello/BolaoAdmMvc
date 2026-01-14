@@ -1,0 +1,156 @@
+﻿@model IEnumerable<DevBol.Presentation.ViewModels.JogoViewModel>
+
+@{
+
+    ViewData["Title"] = "Lançar Atualização da Rodada (Corrente) - No : " + TempData["Rodada"] + " do(a) : " + TempData["Campeonato"];
+    var RodadaId = TempData["RodadaId"];
+
+    <script src="~/lib/jquery/dist/jquery-3.7.1.js"></script>
+}
+
+
+<h4 style="padding-top: 5px">@ViewData["Title"] </h4>
+
+
+@if (Model.Any())
+{
+
+  <hr />
+  <table class="table table-hover">
+    <thead class="thead-dark">
+
+         <tr>
+            <th class="text-right">
+               <a class="btn btn-warning" asp-controller="LancarPlacar"
+                       asp-action="AtualizarRankingRodada" data-toggle="tooltip" data-placement="top" title="Atualizar Ranking"
+                       asp-route-id="@RodadaId"><spam class="fa fa-camera"></spam> </a>
+            </th>
+        </tr>
+
+        <tr>
+
+            <th>
+                Equipe Mandante @* @Html.DisplayNameFor(model => model.EquipeCasaId) *@
+            </th>
+
+            <th>              
+                 @*escudo do mandante*@
+            </th>
+            <th>
+                @*Placar do mandante*@
+            </th>
+
+            <th>
+                X
+            </th>
+
+            <th>
+                @*Placar do Visitante*@
+            </th>
+
+           @*  <th>
+                @*escudo do Visitante
+            </th>
+ *@
+            <th>
+                @Html.DisplayNameFor(model => model.EquipeVisitanteId)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.DataJogo)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.HoraJogo)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Estadio)
+            </th>
+           
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+
+            <th>
+                LANÇAR PLACAR
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+
+        {
+            <tr>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.EquipeCasa.Equipe.Nome)
+                </td>
+                <td>
+                    <img src="/images/@item.EquipeCasa.Equipe.Escudo" style="height: 30px; width: 30px" />
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.PlacarCasa)                                
+                </td>
+
+                <td>
+                                     x
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.PlacarVisita)
+                </td>
+
+                <td>
+                    <img src="/images/@item.EquipeVisitante.Equipe.Escudo" style="height: 30px; width: 30px" />
+                    @Html.DisplayFor(modelItem => item.EquipeVisitante.Equipe.Nome)
+                </td>
+
+
+                <td>
+                    @Html.Raw(String.Format("{0:dd MMM yyyy}", item.DataJogo))
+                </td>
+
+                 <td>
+                    @Html.Raw(item.HoraJogo.ToString(@"hh\:mm"))
+                </td>
+                               
+                <td>
+                    @Html.DisplayFor(modelItem => item.Estadio.Nome)
+                </td>
+
+               @*  <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td> *@
+
+                <td>
+                    @StatusJogoHelper.ExibirStatusJogo(@item.Status)
+                </td>
+
+                <td class="text-right">
+                        <a class="btn btn-primary" asp-controller="LancarPlacar" data-toggle="tooltip" data-placement="top" title="Editar Jogo"
+                           asp-action="EditarJogo" asp-route-id="@item.Id"><spam class="fa fa-book-reader"></spam> </a>
+                       
+                    </td>
+
+            </tr>
+        }
+    </tbody>
+   </table>
+
+  }else
+   {
+        <p>Nenhuma RODADA CORRENTE disponível no momento.</p>
+}
+
+<script>
+
+
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+
+</script>

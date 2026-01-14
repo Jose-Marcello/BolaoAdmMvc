@@ -1,0 +1,67 @@
+﻿@model DevBol.Presentation.ViewModels.JogoViewModel
+
+@{
+
+    ViewData["Title"] = "Informações do JOGO : ";
+
+    <script src="~/lib/jquery/dist/jquery-3.7.1.js"></script>
+
+      
+ }
+  
+
+<h4 style="padding-top: 30px">
+    
+    @ViewData["Title"]
+
+    @Model.EquipeCasa.Equipe.Nome
+    <img src="/images/@Model.EquipeCasa.Equipe.Escudo" style="height: 30px; width: 30px" /> 
+
+                       X
+    
+    <img src="/images/@Model.EquipeVisitante.Equipe.Escudo" style="height: 30px; width: 30px" />
+    @Model.EquipeVisitante.Equipe.Nome
+    
+                       -
+
+    Rodada Nº: @Model.Rodada.NumeroRodada do : @Model.Rodada.Campeonato.Nome
+    
+</h4>
+
+
+
+<hr />
+<div class="row">
+
+    <div class="col-md-6">
+        <dl>
+            <dt>
+                @Html.DisplayNameFor(model => model.DataJogo)
+            </dt>
+            <dd>
+                @Html.Raw(String.Format("{0:dd MMM yyyy}", Model.DataJogo))
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.HoraJogo)
+            </dt>
+            <dd>
+                @Html.Raw(Model.HoraJogo.ToString(@"hh\:mm"))
+            </dd>
+                        
+            <dt>
+                    @Html.DisplayNameFor(model => model.Estadio.Nome)
+            </dt>            
+            <dd>
+                @Html.DisplayFor(model => model.Estadio.Nome)
+            </dd>           
+                         
+
+        </dl>
+
+        <div>
+            <a class="btn btn-dark" asp-action="Edit" asp-route-id="@Model.Id">Editar</a>
+            <a class="btn btn-info" asp-action="ManterJogos">Voltar</a>
+        </div>
+    </div>
+</div>

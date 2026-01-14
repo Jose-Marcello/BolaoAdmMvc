@@ -1,0 +1,78 @@
+﻿@model IEnumerable<DevBol.Presentation.ViewModels.RodadaViewModel>
+
+@{
+
+    ViewData["Title"] = "Gerenciar Rodadas do(a): " + TempData["NomeCampeonato"] + " - (ATIVO)";
+
+    <script src="~/lib/jquery/dist/jquery-3.7.1.js"></script>
+
+}
+
+<h4 style="padding-top: 40px">@ViewData["Title"]</h4>
+<hr />
+
+<p>
+    <a class="btn btn-success" asp-controller="Rodada" asp-action="Create">Nova Rodada </a>
+</p>
+
+<hr />
+<table class="table table-hover">
+    <thead class="thead-dark">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NumeroRodada)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.DataInic)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.DataFim)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.NumJogos)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumeroRodada)
+                </td>
+
+                <td>
+                    @Html.Raw(String.Format("{0:dd MMM yyyy}", item.DataInic))
+                </td>
+
+                <td>
+                    @Html.Raw(String.Format("{0:dd MMM yyyy}", item.DataFim))
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumJogos)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+
+                <td class="text-right">
+                    <a class="btn btn-warning" asp-controller="Rodada" asp-action="Details" asp-route-id="@item.Id"><spam class="fa fa-search"></spam> </a>
+                    <a class="btn btn-info" asp-controller="Rodada" asp-action="Edit" asp-route-id="@item.Id"><spam class="fa fa-pencil-alt"></spam> </a>
+                    <a class="btn btn-danger" asp-controller="Rodada" asp-action="Delete" asp-route-id="@item.Id"><spam class="fa fa-trash"></spam> </a>                    
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

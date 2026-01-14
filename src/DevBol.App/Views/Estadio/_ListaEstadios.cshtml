@@ -1,0 +1,38 @@
+﻿@model IEnumerable<DevBol.Presentation.ViewModels.EstadioViewModel>
+
+<table class="table table-hover">
+    <thead class="thead-dark">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nome)
+            </th>     
+
+            <th>
+                @Html.DisplayNameFor(model => model.Uf)
+            </th>                       
+           
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>               
+               
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+              
+                <td>
+                    @Html.DisplayFor(modelItem => item.Uf.Sigla)
+                </td>
+
+                <td class="text-right">
+                    @* <a class="btn btn-warning" asp-controller="Equipes" asp-action="Details" asp-route-id="@item.Id"><spam class="fa fa-search"></spam> </a>
+                    <a class="btn btn-info" asp-controller="Equipes" asp-action="Edit" asp-route-id="@item.Id"><spam class="fa fa-pencil-alt"></spam> </a> *@
+                    <a class="btn btn-danger" asp-controller="Estadios" asp-action="Delete" asp-route-id="@item.Id"><spam class="fa fa-trash"></spam> </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

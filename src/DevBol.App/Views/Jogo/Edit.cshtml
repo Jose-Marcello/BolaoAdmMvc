@@ -1,0 +1,112 @@
+﻿@model DevBol.Presentation.ViewModels.JogoViewModel
+
+@{
+
+    ViewData["Title"] = "Editar jogo da rodada Nº: " + Model.Rodada.NumeroRodada
+                      + " do(a):  " + Model.Rodada.Campeonato.Nome;
+
+    <script src="~/lib/jquery/dist/jquery-3.7.1.js"></script>
+
+ }
+
+<h4 style="padding-top: 30px">@ViewData["Title"] </h4>
+<hr />
+<div class="row">
+    <div class="col-md-10">
+        <form enctype="multipart/form-data" asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <input type="hidden" asp-for="Id" />
+            @* <input type="hidden" asp-for="PlacarCasa" />
+            <input type="hidden" asp-for="PlacarVisita" /> *@
+
+                <input type="hidden" asp-for="RodadaId" />
+
+                <div class="form-group">
+                    <label asp-for="DataJogo" class="control-label"></label>
+                    <input asp-for="DataJogo" class="form-control" />
+                    <span asp-validation-for="DataJogo" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="HoraJogo" class="control-label"></label>
+                    <input asp-for="HoraJogo" class="form-control" />
+                    <span asp-validation-for="HoraJogo" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="EstadioId" class="control-label"></label>
+                    <select asp-for="EstadioId" class="form-control" asp-items="@(new SelectList(Model.Estadios, "Id", "Nome", Model.EstadioId))">
+                        <option></option>
+                    </select>
+
+                    <br />
+
+                    <span asp-validation-for="EstadioId" class="text-danger"></span>
+                </div>
+                              
+
+            <div class="card mb-4">
+                <div class="card-header">
+                    Placar (Inicialmente Vazio)
+                </div>
+                <div class="card-body">
+                    <div class="form-group d-flex align-items-center">
+                        <div class="mr-2 d-flex align-items-center">
+                           @*  @Html.DisplayFor(model => model.EquipeCasa.Equipe.Nome)                            
+                            <img src="/images/@Model.EquipeCasa.Equipe.Escudo" style="height: 30px; width: 30px" /> *@
+                            
+                                                       <select asp-for="EquipeCasaId" class="form-control" asp-items="@(new SelectList(Model.EquipesCampeonato, "Id", "Equipe.Nome", Model.EquipeCasa.EquipeId))">
+                                <option></option>
+                            </select>
+                            <span asp-validation-for="EquipeCasaId" class="text-danger"></span>
+
+                            <input asp-for="PlacarCasa" type="number" disabled min="0" class="form-control placar-input" id="placarCasa" />
+                            <span asp-validation-for="PlacarCasa" class="text-danger"></span>
+
+                        </div>
+                        <span class="mx-2">x</span>
+                       
+                        <div class="ml-2 d-flex align-items-center">
+                           
+                            <input asp-for="PlacarVisita" type="number" disabled min="0" class="form-control placar-input" id="placarVisita" />
+                            <span asp-validation-for="PlacarVisita" class="text-danger"></span>                            
+                            
+                            <select asp-for="EquipeVisitanteId" class="form-control" asp-items="@(new SelectList(Model.EquipesCampeonato, "Id", "Equipe.Nome", Model.EquipeVisitante.EquipeId))">
+                                <option></option>
+                            </select>                            
+
+                           @*  <img src="/images/@Model.EquipeVisitante.Equipe.Escudo" style="height: 30px; width: 30px" />
+                            @Html.DisplayFor(model => model.EquipeVisitante.Equipe.Nome) *@
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+               <div class="form-group">
+                   <label asp-for="Status" class="control-label"></label><br />
+                   <input type="radio" value="1" asp-for="Status" checked/> Não Iniciado<br /> @*Um jogo ao ser criado é inicializado como Não Iniciado*@
+                   @* <input type="radio" value="2" asp-for="Status" /> Em Andamento
+                   <input type="radio" value="3" asp-for="Status" /> Finalizado *@
+                </div>
+
+                <br />
+
+
+            <div class="form-group">
+                <input type="submit" value="Alterar" class="btn btn-primary" />
+                <a class="btn btn-info" href="javascript:window.history.back();">Voltar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<hr />
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+ 
+}

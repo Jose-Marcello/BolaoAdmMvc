@@ -1,0 +1,80 @@
+﻿@model DevBol.Presentation.ViewModels.CampeonatoViewModel
+
+@{
+    ViewData["Title"] = "Editar - " + @Model.Nome;
+
+    <script src="~/lib/jquery/dist/jquery-3.7.1.js"></script>
+
+}
+
+<h4 style="padding-top: 30px">@ViewData["Title"] </h4>
+<hr />
+<div class="row">
+    <div class="col-md-10">
+        <form enctype="multipart/form-data" asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <input type="hidden" asp-for="Id" />            
+
+            <div class="form-group">
+                <label asp-for="Nome" class="control-label"></label>
+                <input asp-for="Nome" class="form-control" />
+                <span asp-validation-for="Nome" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="DataInic" class="control-label"></label>
+                <input asp-for="DataInic" class="form-control" />
+                <span asp-validation-for="DataInic" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="DataFim" class="control-label"></label>
+                <input asp-for="DataFim" class="form-control" />
+                <span asp-validation-for="DataFim" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="NumRodadas" class="control-label"></label>
+                <input asp-for="NumRodadas" class="form-control" />
+                <span asp-validation-for="NumRodadas" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Tipo" class="control-label"></label><br />
+                 @* @Html.DisplayFor(model => model.Tipo) *@
+                <input type="radio" value="1" asp-for="Tipo" /> Pontos Corridos<br />
+                <input type="radio" value="2" asp-for="Tipo" /> Copa
+            </div>
+
+            <br />
+
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Ativo" /> @Html.DisplayNameFor(model => model.Ativo)
+                </label>
+            </div>
+            
+            <br />
+            
+            <div class="form-group">
+                <input type="submit" value="Salvar" class="btn btn-primary" />
+                <a class="btn btn-info" href="javascript:window.history.back();">Voltar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<hr />
+<h4>Rodadas</h4>
+<div>
+    <partial name="../Rodada/_ListaRodadas" model="@Model.Rodadas" />
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+ 
+}

@@ -1,0 +1,80 @@
+﻿@model DevBol.Presentation.ViewModels.RodadaViewModel
+
+@{
+    ViewData["Title"] = "Nova Rodada do(a)  : " + Model.Campeonato.Nome;
+
+    <script src="~/lib/jquery/dist/jquery-3.7.1.js"></script>
+
+}
+
+<h3 style="padding-top: 20px">@ViewData["Title"]     
+     
+</h3>
+
+<div class="row">
+    <div class="col-md-10">
+        <form enctype="multipart/form-data" asp-action="Create">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+             <input type="hidden" asp-for="CampeonatoId" /> 
+
+           @*  <div class="form-group">
+              <label asp-for="CampeonatoId" class="control-label"></label>
+              <select asp-for="CampeonatoId" class="form-control" readonly
+                asp-items="@(new SelectList(Model.Campeonatos, "Id", "Nome"))">
+                <option> </option>
+              </select>
+            </div> *@  
+
+            <div class="form-group">
+                <label asp-for="NumeroRodada" class="control-label"></label>
+                <input asp-for="NumeroRodada" class="form-control" />
+                <span asp-validation-for="NumeroRodada" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="DataInic" class="control-label"></label>
+                <input asp-for="DataInic" class="form-control" />
+                <span asp-validation-for="DataInic" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="DataFim" class="control-label"></label>
+                <input asp-for="DataFim" class="form-control" />
+                <span asp-validation-for="DataFim" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="NumJogos" class="control-label"></label>
+                <input asp-for="NumJogos" class="form-control" />
+                <span asp-validation-for="NumJogos" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label><br />
+                <input type="radio" value="1" asp-for="Status" checked /> Não Iniciada <br />
+                <input type="radio" value="2" asp-for="Status" disabled /> Corrente  <br />
+                <input type="radio" value="3" asp-for="Status" disabled /> Finalizada
+            </div>            
+
+            <br />
+            
+            <div class="form-group">
+                <input type="submit" value="Incluir" class="btn btn-primary" />
+                <a class="btn btn-info" href="javascript:window.history.back();">Voltar</a>
+            </div>
+
+           
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+      
+}
+

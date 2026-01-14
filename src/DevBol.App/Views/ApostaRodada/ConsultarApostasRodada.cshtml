@@ -1,0 +1,118 @@
+﻿@model IEnumerable<DevBol.Presentation.ViewModels.PalpiteViewModel>
+
+@{
+    ViewData["Title"] = "Apostas Geradas para a Rodada : " + TempData["Rodada"] + " do(a) : " + TempData["Campeonato"];
+}
+
+<h4 style="padding-top: 30px">@ViewData["Title"] </h4>
+
+
+<hr />
+<table class="table table-hover">
+    <thead class="thead-dark">
+        <tr>
+            <th>
+                Apostador
+            </th>
+
+            <th>                
+                Equipe da Casa                  
+            </th>
+                   
+            <th>
+            </th>
+            <th>
+            </th>
+
+            <th>
+                   X
+            </th>
+
+            <th>                
+            </th>
+            <th>
+            </th>
+
+            <th>
+                 Equipe Visitante            
+            </th>
+           
+            <th>
+                @Html.DisplayNameFor(model => model.ApostaRodada.DataHoraSubmissao)
+            </th>
+
+
+            <th>
+                @Html.DisplayNameFor(model => model.ApostaRodada.Enviada)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.ApostaRodada.PontuacaoTotalRodada)
+            </th>
+
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ApostaRodada.ApostadorCampeonato.Apostador.Usuario.Apelido)
+
+                </td>
+                @* aqui vão entrar os escudos *@
+                <td>
+                    @Html.DisplayFor(modelItem => item.Jogo.EquipeCasa.Equipe.Nome)
+                    <img src="/images/@item.Jogo.EquipeCasa.Equipe.Escudo" style="height: 30px; width: 30px" />
+                </td>
+
+                <td>
+                    
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.PlacarApostaCasa)
+                </td>
+                <td>
+                                  x
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PlacarApostaVisita)
+                </td>
+                <td>
+                </td>
+
+
+                <td> 
+                    <img src="/images/@item.Jogo.EquipeVisitante.Equipe.Escudo" style="height: 30px; width: 30px" />
+                    @Html.DisplayFor(modelItem => item.Jogo.EquipeVisitante.Equipe.Nome)                   
+                </td>
+
+                <td>
+                    @Html.Raw(String.Format("{0:dd MMM yyyy hh:mm}", item.ApostaRodada.DataHoraSubmissao))
+                </td>
+
+                
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.ApostaRodada.Enviada)
+
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.ApostaRodada.PontuacaoTotalRodada)
+
+                </td>
+
+                @*  <td class="text-right">
+            <a class="btn btn-warning" asp-controller="Jogos" asp-action="Details" asp-route-id="@item.Id"><spam class="fa fa-search"></spam> </a>
+            <a class="btn btn-info" asp-controller="Jogos" asp-action="Edit" asp-route-id="@item.Id"><spam class="fa fa-pencil-alt"></spam> </a>
+            <a class="btn btn-danger" asp-controller="Jogos" asp-action="Delete" asp-route-id="@item.Id"><spam class="fa fa-trash"></spam> </a>
+            </td> *@
+
+            </tr>
+        }
+    </tbody>
+</table>

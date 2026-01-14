@@ -1,0 +1,56 @@
+﻿@model DevBol.Presentation.ViewModels.EquipeViewModel
+
+@{
+    ViewData["Title"] = "Excluir a Equipe : " + Model.Nome + " (Estado: " + Model.Uf.Nome + ")";
+
+    <script src="~/lib/jquery/dist/jquery-3.7.1.js"></script>
+
+}
+
+<h4 style="padding-top: 50px">@ViewData["Title"] </h4>
+
+<h5>Você tem certeza disso?</h5>
+
+<div class="row">
+
+    <div class="col-md-6">
+        <dl>
+            <dt>
+                @Html.DisplayNameFor(model => model.Nome)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Nome)
+            </dd>
+            
+            <dt>
+                @Html.DisplayNameFor(model => model.Sigla)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Sigla)
+            </dd>
+
+            <dt>
+                    @Html.DisplayNameFor(model => model.Escudo)
+            </dt>
+            <dd>
+                    @Html.DisplayFor(model => model.Escudo)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Tipo)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Tipo)
+            </dd>           
+
+        </dl>
+
+        <div>
+            <form asp-action="Delete">
+                <input type="hidden" asp-for="Id" />
+                <input type="submit" value="Excluir" class="btn btn-danger" />
+                <a class="btn btn-info" href="javascript:window.history.back();">Voltar</a>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,107 @@
+﻿@model IEnumerable<DevBol.Presentation.ViewModels.RodadaViewModel>
+@using DevBol.Domain.Interfaces
+
+@{
+    ViewData["Title"] = "Gerar e Consultar Apostas/Ranking de Rodadas do(a) : " +TempData["NomeCampeonato"] ;
+
+    <script src="~/lib/jquery/dist/jquery-3.7.1.js"></script>
+}
+
+<h4 style="padding-top: 40px">@ViewData["Title"]</h4>
+<hr />
+
+@if (TempData["Notificacao"] != null)
+{
+    var tipoNotificacao = TempData["TipoNotificacao"] as string;
+    var classeAlerta = "alert-info"; // Valor padrão
+
+    if (tipoNotificacao == "erro")
+    {
+        classeAlerta = "alert-danger";
+    }
+    else if (tipoNotificacao == "alerta")
+    {
+        classeAlerta = "alert-warning";
+    }
+    else if (tipoNotificacao == "sucesso")
+    {
+        classeAlerta = "alert-success";
+    }
+
+    <div class="alert @classeAlerta alert-dismissible fade show">
+        @TempData["Notificacao"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<table class="table table-hover">
+    <thead class="thead-dark">
+        <tr>          
+
+            <th>
+                @Html.DisplayNameFor(model => model.NumeroRodada)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DataInic)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.DataFim)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.NumJogos)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+
+        {
+            <tr>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumeroRodada)
+                </td>
+
+                <td>
+                    @Html.Raw(String.Format("{0:dd MMM yyyy}", item.DataInic))
+                </td>
+
+                <td>
+                    @Html.Raw(String.Format("{0:dd MMM yyyy}", item.DataFim))
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumJogos)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+
+                <td class="text-right">
+                    <a class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Gerar Apostas da Rodada" asp-controller="ApostaRodada" asp-action="GerarApostasERanking" asp-route-id="@item.Id"><spam class="fa fa-atom"></spam> </a>
+                    <a class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Consultar Apostas da Rodada" asp-controller="ApostaRodada" asp-action="ConsultarApostasRodada" asp-route-id="@item.Id"><spam class="fa fa-address-card"></spam> </a>
+                    <a class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Consultar Ranking da Rodada" asp-controller="RankingRodada" asp-action="ExibirRanking" asp-route-id="@item.Id"><spam class="fa fa-blog"></spam> </a>
+                    <a class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Deletar Apostas da Rodada" asp-controller="ApostaRodada" asp-action="DeletarApostasRodadas" asp-route-id="@item.Id"><spam class="fa fa-trash"></spam> </a>
+                </td>
+           
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+
+
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()        
+    })
+
+</script>

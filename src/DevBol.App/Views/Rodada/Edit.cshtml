@@ -1,0 +1,105 @@
+﻿@model DevBol.Presentation.ViewModels.RodadaViewModel
+@using DevBol.Domain.Models.Rodadas
+
+@{
+    ViewData["Title"] = "Editar Rodada Número : " + Model.NumeroRodada + " do(a) : "; // + Model.Campeonato.Nome;
+
+    <script src="~/lib/jquery/dist/jquery-3.7.1.js"></script>
+
+}
+
+@* <h4 style="padding-top: 30px">@ViewData["Title"] </h4> *@
+
+<h4 style="padding-top: 20px">
+    @ViewData["Title"] @Html.DisplayFor(c => c.Campeonato.Nome)
+</h4>
+
+<hr />
+<div class="row">
+    <div class="col-md-10">
+        <form enctype="multipart/form-data" asp-action="Edit">
+
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <input type="hidden" asp-for="Id" />    
+            <input type="hidden" asp-for="CampeonatoId" />
+                      
+            <div class="form-group">
+                <label asp-for="NumeroRodada" class="control-label"></label>
+                <input asp-for="NumeroRodada" class="form-control" />
+                <span asp-validation-for="NumeroRodada" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="DataInic" class="control-label"></label>
+                <input asp-for="DataInic" class="form-control" />
+                <span asp-validation-for="DataInic" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="DataFim" class="control-label"></label>
+                <input asp-for="DataFim" class="form-control" />
+                <span asp-validation-for="DataFim" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="NumJogos" class="control-label"></label>
+                <input asp-for="NumJogos" class="form-control" />
+                <span asp-validation-for="NumJogos" class="text-danger"></span>
+            </div>
+         
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="Status" id="EmConstrucao" value="0" @(Model.Status == StatusRodada.EmConstrucao ? "checked" : "")>
+                    <label class="form-check-label" for="EmConstrucao">Em Construção</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="Status" id="NaoIniciada" value="1" @(Model.Status == StatusRodada.NaoIniciada ? "checked" : "")>
+                    <label class="form-check-label" for="NaoIniciada">Pronta Não Iniciada</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="Status" id="EmApostas" value="2" @(Model.Status == StatusRodada.EmApostas ? "checked" : "")>
+                    <label class="form-check-label" for="EmApostas">Em Apostas</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="Status" id="Corrente" value="3" @(Model.Status == StatusRodada.Corrente ? "checked" : "")>
+                    <label class="form-check-label" for="Corrente">Corrente</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="Status" id="Finalizada" value="4" @(Model.Status == StatusRodada.Finalizada ? "checked" : "")>
+                    <label class="form-check-label" for="Finalizada">Finalizada</label>
+                </div>
+
+            </div>
+           
+            @* 
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label><br />
+                <input type="radio" value="0" asp-for="Status" checked /> Em Construção <br />
+                <input type="radio" value="1" asp-for="Status" /> Pronta(Não Iniciada) <br />
+                <input type="radio" value="2" asp-for="Status" /> Em Apostas <br />
+                <input type="radio" value="3" asp-for="Status" /> Corrente <br /> 
+                <input type="radio" value="4" asp-for="Status" /> Finalizada <br />
+            </div> *@
+
+            <br />
+           
+            <div class="form-group">
+                <input type="submit" value="Alterar" class="btn btn-primary" />
+                <a class="btn btn-info" href="javascript:window.history.back();">Voltar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+
+        document.getElementById("CampeonatoId").setAttribute("readonly", true);
+
+    </script>
+
+}

@@ -1,0 +1,118 @@
+﻿@model DevBol.Presentation.ViewModels.JogoViewModel
+
+@{
+    ViewData["Title"] = "Editar STATUS e PLACAR do jogo ";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-10">
+            <form method="post" asp-action="SalvarJogo">
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="EquipeCasaId" />
+                <input type="hidden" asp-for="EquipeVisitanteId" />
+                <input type="hidden" asp-for="RodadaId" />
+                <input type="hidden" asp-for="EstadioId" />
+                <input type="hidden" asp-for="DataJogo" />
+                <input type="hidden" asp-for="HoraJogo" />
+ 
+                <div class="card mb-4">
+                    <div class="card-header">
+                        Dados do Jogo
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            @Html.DisplayNameFor(model => model.DataJogo) :
+                            @Html.Raw(String.Format("{0:dd MMM yyyy}", Model.DataJogo))                            
+                        </div>
+                        <div class="form-group">
+                            @Html.DisplayNameFor(model => model.HoraJogo) :
+                            @Html.Raw(Model.HoraJogo.ToString(@"hh\:mm"))
+                        </div>
+                        <div class="form-group">
+                            Estádio :
+                            @Html.DisplayFor(model => model.Estadio.Nome)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-4">
+                    <div class="card-header">
+                        Status
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <br />
+                            <input type="radio" value="0" asp-for="Status" id="statusNaoIniciado" checked="@(Model.Status == DevBol.Domain.Models.Jogos.StatusJogo.NaoIniciado)" /> <label for="statusNaoIniciado">Não Iniciado</label> <br />
+                            <input type="radio" value="1" asp-for="Status" id="statusEmAndamento" checked="@(Model.Status == DevBol.Domain.Models.Jogos.StatusJogo.EmAndamento)" /> <label for="statusEmAndamento">Em Andamento</label> <br />
+                            <input type="radio" value="2" asp-for="Status" id="statusFinalizado" checked="@(Model.Status == DevBol.Domain.Models.Jogos.StatusJogo.Finalizado)" /> <label for="statusFinalizado">Finalizado</label> <br />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-4">
+                    <div class="card-header">
+                        Placar
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group d-flex align-items-center">
+                            <div class="mr-2 d-flex align-items-center">
+                                @Html.DisplayFor(model => model.EquipeCasa.Equipe.Nome)
+                                <img src="/images/@Model.EquipeCasa.Equipe.Escudo" style="height: 30px; width: 30px" />
+                                <input asp-for="PlacarCasa" type="number" min="0" class="form-control placar-input" id="placarCasa" />
+                                <span asp-validation-for="PlacarCasa" class="text-danger"></span>
+                            </div>
+                            <span class="mx-2">x</span>
+                            <div class="ml-2 d-flex align-items-center">
+                                <input asp-for="PlacarVisita" type="number" min="0" class="form-control placar-input" id="placarVisita" />
+                                <span asp-validation-for="PlacarVisita" class="text-danger"></span>
+                                <img src="/images/@Model.EquipeVisitante.Equipe.Escudo" style="height: 30px; width: 30px" />
+                                @Html.DisplayFor(model => model.EquipeVisitante.Equipe.Nome)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" id="Id" value="Salvar Jogo" class="btn btn-primary" />
+                    <a class="btn btn-info" href="javascript:window.history.back();">Voltar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+    <script>
+        
+        document.addEventListener('DOMContentLoaded', function() {
+        const statusRadios = document.querySelectorAll('input[name="Status"]');
+        const placarCasaInput = document.getElementById('placarCasa');
+        const placarVisitaInput = document.getElementById('placarVisita');              
+        
+        
+        function updatePlacarInputs() {
+
+           const status = document.querySelector('input[name="Status"]:checked').value;
+           const placarCasaInput = document.getElementById('placarCasa');
+           const placarVisitaInput = document.getElementById('placarVisita');
+
+           const isDisabled = status === '0'; //|| status === '2';
+
+           placarCasaInput.disabled = isDisabled;
+           placarVisitaInput.disabled = isDisabled;
+
+           if (status === '1' && placarCasaInput.value === '' && placarVisitaInput.value === '') { // Verifica se o status é "Em Andamento" e os placares estão nulos
+              placarCasaInput.value = '0';
+              placarVisitaInput.value = '0';
+           }
+        }
+
+        statusRadios.forEach(radio => {
+        radio.addEventListener('change', updatePlacarInputs);
+        });
+
+        updatePlacarInputs(); // Inicializa os inputs com base no status inicial
+
+        });
+
+</script>
